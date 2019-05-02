@@ -12,12 +12,18 @@
         <div class="info">{{hero.name}}</div>
       </div>
     </div>
+
   </div>
 </template>
 
 <script>
 export default {
   name: "Content",
-  props: ["heroes"]
+  props: {
+    heroes: {
+      type: Array,
+      default: []
+    }
+  }
 };
 </script>

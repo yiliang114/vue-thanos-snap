@@ -2,18 +2,16 @@
   <div class="main">
     <div class="gauntlet">
       <div class="gauntlet-wrapper">
-        <!-- <span>剩余英雄： {{residue}} 个</span> -->
         <div id="gauntlet-snap"
-          v-if="showSnap"
+          v-show="showSnap"
           :class="snaping? 'snaping':''"
           class="gauntlet-item"
           @click="snapHandle"></div>
         <div id="gauntlet-reverse"
-          v-if="showReverse"
+          v-show="showReverse"
           :class="reversing? 'reversing':''"
           class="gauntlet-item"
           @click="reverseHandle"></div>
-
       </div>
     </div>
 
@@ -35,6 +33,7 @@
 <script>
 import Content from "./Content";
 import html2canvas from "html2canvas";
+import { heroes } from "@/config";
 export default {
   name: "Gauntlet",
   data() {
@@ -43,54 +42,22 @@ export default {
       showReverse: false,
       snaping: false,
       reversing: false,
-
-      heroesHided: [],
-      residue: 0,
-      heroes: [
-        {
-          id: 1,
-          name: "Iron Man",
-          src: require("../assets/avatar/1.jpg")
-        },
-        {
-          id: 2,
-          name: "Black Widow",
-          src: require("../assets/avatar/2.jpg")
-        },
-        {
-          id: 3,
-          name: "Captain America",
-          src: require("../assets/avatar/3.jpg")
-        },
-        {
-          id: 4,
-          name: "Spider Man",
-          src: require("../assets/avatar/4.jpg")
-        },
-        {
-          id: 5,
-          name: "Thor",
-          src: require("../assets/avatar/5.jpg")
-        },
-        {
-          id: 6,
-          name: "Hulk",
-          src: require("../assets/avatar/6.jpg")
-        },
-        {
-          id: 7,
-          name: "Black Panther",
-          src: require("../assets/avatar/7.jpg")
-        },
-        {
-          id: 8,
-          name: "Doctor Stranger",
-          src: require("../assets/avatar/8.jpg")
-        }
-      ]
+      heroHidedIds: [],
+      heroes
     };
   },
   methods: {
+    scrollToAnchor(anchorName) {
+      if (anchorName) {
+        let anchorElement = document.getElementById(anchorName);
+        if (anchorElement) {
+          anchorElement.scrollIntoView({
+            behavior: "smooth",
+            block: "start"
+          });
+        }
+      }
+    },
     sleep(delay) {
       return new Promise(resovle => {
         setTimeout(() => {
@@ -99,49 +66,53 @@ export default {
       });
     },
     snapHandle() {
+      // can not click until harf heroes becomes dust
+      if (this.snaping || this.reversing) return;
       this.snaping = true;
       this.playAudio("snap");
 
-      // 随机消失
+      // select half heroes randomly
       setTimeout(async () => {
         this.showReverse = true;
         this.showSnap = false;
 
         // get half heroes randomly
-        this.heroesHided = this.heroes
+        this.heroHidedIds = this.heroes
           .slice(0)
           .sort(() => 0.5 - Math.random())
-          .slice(0, Math.ceil(this.heroes.length / 2));
+          .slice(0, Math.ceil(this.heroes.length / 2))
+          .map(hero => hero.id);
+
         // from ashes to ashes
-        for (let i = 0; i < this.heroesHided.length; i++) {
-          let hero = this.heroesHided[i],
-            itm = document.getElementById(hero.id);
-          await this.sleep();
-          // this.playAudio(i);
+        for (let i = 0; i < this.heroHidedIds.length; i++) {
+          let heroId = this.heroHidedIds[i],
+            itm = document.getElementById(heroId);
+
+          this.scrollToAnchor(heroId);
+          // add canvas and turn html hidden
           await this.snapToDust(itm);
-          // this.residue--;
+          await this.sleep();
         }
 
         this.snaping = false;
       }, 1500);
     },
     reverseHandle() {
+      if (this.snaping || this.reversing) return;
       this.reversing = true;
       this.playAudio("reverse");
 
-      // 随机消失
       setTimeout(() => {
         this.showSnap = true;
         this.showReverse = false;
 
-        this.heroesHided.forEach(hero => {
-          let itm = document.getElementById(hero.id);
+        this.heroHidedIds.forEach(heroId => {
+          let itm = document.getElementById(heroId);
           itm.style.visibility = "visible";
           // if-show
           this.addClass(itm, "time");
         });
-        this.residue = this.heroes.length;
-        this.snaping = false;
+        this.reversing = false;
       }, 1500);
     },
     playAudio(target) {
@@ -156,9 +127,13 @@ export default {
     },
     generateFrames($canvas, count = 32) {
       const { width, height } = $canvas;
+      // get a 2d rendering context from $canvas
       const ctx = $canvas.getContext("2d");
+      // copy a rectangular area marked by 4 parameter
       const originalData = ctx.getImageData(0, 0, width, height);
+
       const imageDatas = [...Array(count)].map((_, i) =>
+        // createImageData funciton is used to create a blank ImageData obj
         ctx.createImageData(width, height)
       );
 
@@ -178,14 +153,18 @@ export default {
         }
       }
 
+      // return a array of canvas
       return imageDatas.map(data => {
         const $c = $canvas.cloneNode(true);
+        // putImageData used to put a ImageData on a canvas
         $c.getContext("2d").putImageData(data, 0, 0);
         return $c;
       });
     },
     replaceElementVisually($old, $new) {
+      // play audio when the hero becomes dust
       this.playAudio();
+      // offsetParent could get all attrs
       const $parent = $old.offsetParent;
       $new.style.top = `${$old.offsetTop}px`;
       $new.style.left = `${$old.offsetLeft}px`;
@@ -195,7 +174,7 @@ export default {
       $old.style.visibility = "hidden";
     },
     snapToDust($elm) {
-      return new Promise((resolve, reject) => {
+      return new Promise(resolve => {
         html2canvas($elm, {
           allowTaint: true
         }).then($canvas => {
@@ -212,12 +191,6 @@ export default {
 
           // insert canvas into DOM over the element
           this.replaceElementVisually($elm, $container);
-
-          // play dust audio
-          let index = Math.floor(Math.random() * 6 + 1);
-          // const dom = this.$refs[`dust_${index}`];
-          // const dom = document.getElementById(`dust_${index}`);
-          // dom && dom.play();
 
           // animate them
           $container.offsetLeft;
@@ -250,9 +223,6 @@ rotate(${15 * (Math.random() - 0.5)}deg)`;
   },
   components: {
     Content
-  },
-  mounted() {
-    this.residue = this.heroes.length;
   }
 };
 </script>
