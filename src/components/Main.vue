@@ -2,7 +2,7 @@
   <div class="main">
     <div class="gauntlet">
       <div class="gauntlet-wrapper">
-        <span>剩余英雄： {{residue}} 个</span>
+        <!-- <span>剩余英雄： {{residue}} 个</span> -->
         <div id="gauntlet-snap"
           v-if="showSnap"
           :class="snaping? 'snaping':''"
@@ -18,13 +18,13 @@
     </div>
 
     <Content :heroes="heroes" />
-    <audio src="/audios/thanos_snap_sound.mp3"
+    <audio :src="require('../assets/audios/thanos_snap_sound.mp3')"
       preload
       ref="snap"></audio>
-    <audio src="/audios/thanos_reverse_sound.mp3"
+    <audio :src="require('../assets/audios/thanos_reverse_sound.mp3')"
       preload
       ref="reverse"></audio>
-    <audio :src="`/audios/thanos_dust_${item}.mp3`"
+    <audio :src="require(`../assets/audios/thanos_dust_${item}.mp3`)"
       v-for="item in 6"
       :key="item"
       preload
@@ -50,42 +50,42 @@ export default {
         {
           id: 1,
           name: "Iron Man",
-          src: "/images/avatar/1.jpg"
+          src: require("../assets/avatar/1.jpg")
         },
         {
           id: 2,
           name: "Black Widow",
-          src: "/images/avatar/2.jpg"
+          src: require("../assets/avatar/2.jpg")
         },
         {
           id: 3,
           name: "Captain America",
-          src: "/images/avatar/3.jpg"
+          src: require("../assets/avatar/3.jpg")
         },
         {
           id: 4,
           name: "Spider Man",
-          src: "/images/avatar/4.jpg"
+          src: require("../assets/avatar/4.jpg")
         },
         {
           id: 5,
           name: "Thor",
-          src: "/images/avatar/5.jpg"
+          src: require("../assets/avatar/5.jpg")
         },
         {
           id: 6,
           name: "Hulk",
-          src: "/images/avatar/6.jpg"
+          src: require("../assets/avatar/6.jpg")
         },
         {
           id: 7,
           name: "Black Panther",
-          src: "/images/avatar/7.jpg"
+          src: require("../assets/avatar/7.jpg")
         },
         {
           id: 8,
           name: "Doctor Stranger",
-          src: "/images/avatar/8.jpg"
+          src: require("../assets/avatar/8.jpg")
         }
       ]
     };
