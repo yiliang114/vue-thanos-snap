@@ -22,7 +22,9 @@ export default {
   props: {
     heroes: {
       type: Array,
-      default: []
+      default: function() {
+        return [];
+      }
     }
   }
 };
