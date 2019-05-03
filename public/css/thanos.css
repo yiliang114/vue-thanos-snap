@@ -1,0 +1,109 @@
+@-webkit-keyframes gauntlet {
+  0% {
+    background-position: 0 0;
+  }
+  100% {
+    background-position: -3760px 0;
+  }
+}
+
+@-webkit-keyframes heroBack {
+  0% {
+    opacity: 0;
+    /* color: green; */
+    background-color: green;
+    transform: scale(1.1);
+  }
+  100% {
+    opacity: 1;
+    /* color: #000; */
+    transform: scale(1);
+  }
+}
+
+body {
+  width: 100%;
+  padding: 0;
+  margin: 0;
+}
+
+.main {
+  width: 100%;
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.main .gauntlet {
+  height: 100px;
+}
+
+.main .gauntlet-item {
+  width: 80px;
+  height: 80px;
+  cursor: pointer;
+}
+
+.main #gauntlet-snap {
+  background: transparent url('../images/thanos_snap.png') center left no-repeat;
+  background-position: 0 0;
+}
+
+.main .snaping {
+  -webkit-animation: gauntlet 2.8s steps(47) both;
+  animation: gauntlet 2.8s steps(47) both;
+}
+
+.main #gauntlet-reverse {
+  background: transparent url('../images/thanos_reverse.png') center left no-repeat;
+  background-position: 0 0;
+}
+
+.main .reversing {
+  -webkit-animation: gauntlet 2.8s steps(47) both;
+  animation: gauntlet 2.8s steps(47) both;
+}
+
+.content {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 10px;
+}
+
+.content .item {
+  flex: 1;
+  height: 260px;
+  margin: 10px;
+  border: 1px solid #CECECE;
+  text-align: center;
+  box-sizing: border-box;
+}
+
+.content .item .avatar img {
+  width: 200px;
+  height: 200px;
+}
+
+.content .item .info {
+  height: 30px;
+  line-height: 30px;
+}
+
+.content .time {
+  -webkit-animation: heroBack 2s linear;
+  animation: heroBack 2s linear;
+}
+
+.dust-container {
+  position: absolute;
+  pointer-events: none;
+}
+
+.dust-container canvas {
+  position: absolute;
+  left: 0;
+  top: 0;
+  transition: transform 1s ease-out, opacity 1s ease-out;
+  opacity: 1;
+  transform: rotate(0deg) translate(0px, 0px) rotate(0deg);
+}
