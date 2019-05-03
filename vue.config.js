@@ -1,3 +1,4 @@
 module.exports = {
-  assetsDir: 'vue-thanos-snap'
+  // for git pages
+  assetsDir: 'vue-thanos-snap/vue-thanos-snap'
 };
