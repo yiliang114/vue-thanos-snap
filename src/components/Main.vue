@@ -126,6 +126,7 @@ export default {
         ctx.createImageData(width, height)
       );
 
+      // pixel level
       for (let x = 0; x < width; ++x) {
         for (let y = 0; y < height; ++y) {
           // REPEAT
