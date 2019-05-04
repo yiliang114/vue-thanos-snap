@@ -15,18 +15,13 @@
       </div>
     </div>
 
-    <Content :heroes="heroes" />
-    <audio :src="require('../assets/audios/thanos_snap_sound.mp3')"
-      preload
-      ref="snap"></audio>
-    <audio :src="require('../assets/audios/thanos_reverse_sound.mp3')"
-      preload
-      ref="reverse"></audio>
-    <audio :src="require(`../assets/audios/thanos_dust_${item}.mp3`)"
-      v-for="item in 6"
-      :key="item"
-      preload
-      :id="`dust_${item}`"></audio>
+    <Content :heroes="heroes"
+      :heroHided="heroHidedIds"
+      :reversing="reversing" />
+    <!-- TODO: data 驱动 view 的形式，而不是直接操作 dom -->
+
+    <audio preload
+      ref="allAuduio"></audio>
   </div>
 </template>
 
@@ -105,26 +100,21 @@ export default {
       setTimeout(() => {
         this.showSnap = true;
         this.showReverse = false;
-
-        this.heroHidedIds.forEach(heroId => {
-          let itm = document.getElementById(heroId);
-          itm.style.visibility = "visible";
-          // if-show
-          this.addClass(itm, "time");
-        });
         this.reversing = false;
       }, 1500);
     },
     playAudio(target) {
+      const dom = this.$refs.allAuduio;
+      if (!dom) return;
       if (["snap", "reverse"].indexOf(target) > -1) {
-        const dom = this.$refs[target];
-        dom && dom.play();
+        dom.src = require(`../assets/audios/thanos_${target}_sound.mp3`);
       } else {
         let index = target || Math.floor(Math.random() * 6 + 1);
-        const dom = document.getElementById(`dust_${index}`);
-        dom && dom.play();
+        dom.src = require(`../assets/audios/thanos_dust_${index}.mp3`);
       }
+      dom.play();
     },
+    // 32 帧
     generateFrames($canvas, count = 32) {
       const { width, height } = $canvas;
       // get a 2d rendering context from $canvas
@@ -196,29 +186,16 @@ export default {
           $container.offsetLeft;
           $frames.forEach($frame => {
             const randomRadian = 2 * Math.PI * (Math.random() - 0.5);
+            // rotate(${15 * (Math.random() - 0.5)}deg)
             $frame.style.transform = `rotate(${15 *
               (Math.random() - 0.5)}deg) translate(${60 *
-              Math.cos(randomRadian)}px, ${30 * Math.sin(randomRadian)}px)
-rotate(${15 * (Math.random() - 0.5)}deg)`;
+              Math.cos(randomRadian)}px, ${30 * Math.sin(randomRadian)}px)`;
             $frame.style.opacity = 0;
           });
 
           resolve();
         });
       });
-    },
-    addClass($ele, cls) {
-      if (!this.hasClass($ele, cls)) {
-        $ele.className =
-          $ele.className == "" ? cls : $ele.className + " " + cls;
-      }
-    },
-    hasClass($ele, cls) {
-      cls = cls || "";
-      if (cls.replace(/\s/g, "").length == 0) {
-        return false;
-      }
-      return new RegExp(" " + cls + " ").test(" " + $ele.className + " ");
     }
   },
   components: {
