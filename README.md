@@ -18,8 +18,8 @@
   });
   ```
 - 被选中的英雄灰飞烟灭的效果解释：
-  1. 使用 `html2canvas` 库将每一个英雄所在的 `dom` 节点渲染为一个 `canvas` 节点
-  2. 通过 `generateFrames` 方法，将整块的 `canvas` 画布图像按像素分割成许多块
+  1. 使用 [html2canvas](http://html2canvas.hertzen.com/) 库将每一个英雄所在的 `dom` 节点渲染为一个 `canvas` 节点
+  2. 通过 [generateFrames](https://github.com/yiliang114/vue-thanos-snap/blob/master/src/components/Main.vue/#L117) 方法，将整块的 `canvas` 画布图像按像素分割成许多块
   3. 创建一个跟选中的英雄所在的 `dom` 节点同一个位置、同样的大小的容器覆盖原 `dom` 节点
   4. 把第二步创建的块绘制到新的画布上，并都通过 `appendChild` 方法添加到第三步创建的父容器中
   5. 随机设置每一块的 `rotate` 角度和 `translate` 像素，就能完成灰飞烟灭的效果
@@ -30,4 +30,4 @@
 ## TODO
 1. 因为之前几乎没有接触过 canvas ， 我理解用完全使用 vue 来写的话，应该是直接通过 data 驱动，现在的代码还有大量直接操作 dom
 2. 锚点滑动似乎不够平滑
-3. 偶尔音频与动画会有不同步（F5 之后）
+3. 偶尔音频与动画会有不同步（F5 之后， 貌似会恢复正常）
