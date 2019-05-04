@@ -18,7 +18,6 @@
     <Content :heroes="heroes"
       :heroHided="heroHidedIds"
       :reversing="reversing" />
-    <!-- TODO: data 驱动 view 的形式，而不是直接操作 dom -->
 
     <audio preload
       ref="allAuduio"></audio>
