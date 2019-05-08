@@ -29,7 +29,6 @@ export default {
       const { width, height } = $canvas;
       // get a 2d rendering context from $canvas
       const ctx = $canvas.getContext("2d");
-      // document.getElementById("app").appendChild($canvas);
       // copy a rectangular area marked by 4 parameter. A ImageData obj has three property, height,width and data.
       const originalData = ctx.getImageData(0, 0, width, height);
       const imageDatas = [...Array(this.framesLength)].map(() =>

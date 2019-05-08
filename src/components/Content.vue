@@ -7,6 +7,7 @@
         visible: status === PEDDING || status === REVERSING
       }"
       :id="hero.id"
+      :ref="`hero-${hero.id}`"
       v-for="(hero, index) in heroes"
       :key="index">
       <div class="item-body">
@@ -20,6 +21,7 @@
     <DustHero v-for="id in theLostHeroIds"
       :class="`hero-${id}`"
       :heroId="id"
+      v-scroll
       @hide-hero="hideHero"
       :key="`hero-${id}`"></DustHero>
   </div>
@@ -40,6 +42,16 @@ export default {
       theLostHeroIds: [],
       hideDone: []
     };
+  },
+  directives: {
+    scroll: {
+      inserted: function(el) {
+        el.scrollIntoView({
+          behavior: "smooth",
+          block: "center"
+        });
+      }
+    }
   },
   mixins: [statusMixin],
   methods: {
@@ -76,6 +88,9 @@ export default {
     top: 220px + floor($i/4) * 280px;
     left: 330px + floor($i%4) * 245px;
   }
+}
+.content {
+  scroll-behavior: smooth;
 }
 .visible {
   visibility: visible;
