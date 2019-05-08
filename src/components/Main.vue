@@ -41,7 +41,9 @@ export default {
     changeStatus(status) {
       this.status = status;
     },
-    scrollToAnchor(anchorName) {
+    scrollToAnchor(heroId) {
+      // 4 hero per line
+
       if (anchorName) {
         let anchorElement = document.getElementById(anchorName);
         if (anchorElement) {
@@ -79,6 +81,7 @@ export default {
           /* eslint-disable */
           if (!!i) await this.sleep();
           this.playAudio();
+          this.scrollToAnchor(heroesDisappered[i].id);
           Bus.$emit("hide-hero", heroesDisappered[i].id);
         }
         this.$nextTick(() => {
