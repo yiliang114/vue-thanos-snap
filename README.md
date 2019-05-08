@@ -3,7 +3,7 @@
 另外，其实代码是参考 https://github.com/lichking24/Thanos_Dust 的。 Thanos_Dust 代码已经算比较完善的了，我用 vue 来写了一下，加了一些英雄，修复了一些 bug ，加了一些效果之类的。
 
 ## effect demo
-[demos](https://yiliang114.github.io/vue-thanos-snap/index.html)
+[demos](https://zhijianzhang.cn/vue-thanos-snap/)
 
 ![222](./demos/demo.gif)
 
@@ -40,3 +40,4 @@
 
 ### 2019.5.8
 1. 使用指令来滑动。
+2. 首次加载的时候图片很多确实很慢，但是这里懒加载图片效果并不会很好，因为首屏（屏大的话）已经显示出 3/4 的图片了。另外还有一个原因是之前直接用 git pages 展示，加载速度受到了一定的影响，并且滑动十分卡顿。放到服务器上去之后好很多了。
