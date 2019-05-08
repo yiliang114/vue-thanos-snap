@@ -96,3 +96,8 @@ export const heroes = [
     show: true
   }
 ]
+
+export const PEDDING = "PEDDING";
+export const SNAPING = "SNAPING";
+export const DONE = "DONE";
+export const REVERSING = "REVERSING";
