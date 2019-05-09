@@ -68,15 +68,15 @@ export default {
         for (let i = 0; i < heroesDisappered.length; i++) {
           /* eslint-disable */
           if (!!i) await this.sleep();
-          this.playAudio();
           this.$nextTick(() => {
+            this.playAudio();
             Bus.$emit("hide-hero", heroesDisappered[i].id);
           });
         }
         this.$nextTick(() => {
           this.status = this.DONE;
         });
-      }, 4000);
+      }, 2500);
     },
     reverseHandle() {
       if (this.status === this.SNAPING || this.status === this.REVERSING)
@@ -106,3 +106,34 @@ export default {
   }
 };
 </script>
+
+<style lang="scss">
+.main {
+  width: 100%;
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 20px;
+  .gauntlet {
+    height: 100px;
+  }
+  .gauntlet-item {
+    width: 80px;
+    height: 80px;
+    cursor: pointer;
+  }
+  #gauntlet-snap {
+    background: transparent url("../assets/thanos/thanos_snap.png") center left
+      no-repeat;
+    background-position: 0 0;
+  }
+  #gauntlet-reverse {
+    background: transparent url("../assets/thanos/thanos_reverse.png") center
+      left no-repeat;
+    background-position: 0 0;
+  }
+  .snaping,
+  .reversing {
+    animation: gauntlet 2.8s steps(47) both;
+  }
+}
+</style>
