@@ -81,22 +81,47 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 // hero num is 16
 @for $i from 0 to 16 {
   .hero-#{$i + 1} {
-    top: 220px + floor($i/4) * 280px;
-    left: 330px + floor($i%4) * 245px;
+    top: 20px + floor($i/4) * 280px;
+    left: 20px + floor($i%4) * 245px;
   }
 }
-.content {
-  scroll-behavior: smooth;
-}
+
 .visible {
   visibility: visible;
 }
 .hidden {
   visibility: hidden;
+}
+
+.content {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 10px;
+  scroll-behavior: smooth;
+  position: relative;
+  .item {
+    flex: 1;
+    height: 260px;
+    margin: 10px;
+    border: 1px solid #cecece;
+    text-align: center;
+    box-sizing: border-box;
+    .avatar img {
+      width: 200px;
+      height: 200px;
+    }
+    .info {
+      height: 30px;
+      line-height: 30px;
+    }
+  }
+  .time {
+    animation: heroBack 2s linear;
+  }
 }
 </style>
 

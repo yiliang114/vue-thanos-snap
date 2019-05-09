@@ -90,13 +90,21 @@ export default {
 };
 </script>
 
-<style lang='scss' scoped>
+<style lang='scss'>
 $framesLength: 32;
 // canvas default style. like width height and so on
 .dust-container {
+  position: absolute;
+  pointer-events: none;
   canvas {
     width: 225px;
     height: 260px;
+    position: absolute;
+    left: 0;
+    top: 0;
+    transition: transform 1s ease-out, opacity 1s ease-out;
+    opacity: 1;
+    transform: rotate(0deg) translate(0px, 0px) rotate(0deg);
   }
   canvas.dust {
     @for $i from 0 to $framesLength {
