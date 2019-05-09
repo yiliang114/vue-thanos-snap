@@ -68,15 +68,15 @@ export default {
         for (let i = 0; i < heroesDisappered.length; i++) {
           /* eslint-disable */
           if (!!i) await this.sleep();
-          this.playAudio();
           this.$nextTick(() => {
+            this.playAudio();
             Bus.$emit("hide-hero", heroesDisappered[i].id);
           });
         }
         this.$nextTick(() => {
           this.status = this.DONE;
         });
-      }, 4000);
+      }, 2500);
     },
     reverseHandle() {
       if (this.status === this.SNAPING || this.status === this.REVERSING)

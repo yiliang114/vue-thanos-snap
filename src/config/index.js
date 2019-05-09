@@ -43,7 +43,7 @@ export const heroes = [
   },
   {
     id: 8,
-    name: "Doctor Stranger",
+    name: "Doctor Strange",
     src: require("../assets/avatar/8.jpg"),
     show: true
   },
