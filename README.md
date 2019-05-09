@@ -3,7 +3,7 @@
 另外，其实代码是参考 https://github.com/lichking24/Thanos_Dust 的。 Thanos_Dust 代码已经算比较完善的了，我用 vue 来写了一下，加了一些英雄，修复了一些 bug ，加了一些效果之类的。
 
 ## effect demo
-[demos](https://yiliang114.github.io/vue-thanos-snap/index.html)
+[demos](https://zhijianzhang.cn/vue-thanos-snap/)
 
 ![222](./demos/demo.gif)
 
